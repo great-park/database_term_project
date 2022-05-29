@@ -1,1 +1,1 @@
-"# database_term_project" 
+"# database 수업에서 진행한 term_project" 
