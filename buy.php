@@ -8,26 +8,13 @@ include "util.php";
     <?
     $conn = dbconnect($host, $dbid, $dbpass, $dbname);
     
-    $customer_id = $_POST['customer_id'];
-    
-    $available_insert = check_id($conn, $customer_id);
+    $signInId = $_POST['signInId'];
+    $userId = mysqli_query($conn,"select userId from User where signInId = $signInId");
+    $available_insert = check_id($conn, $signInId);
     if ($available_insert){
-        $total_amount = 0;
-        foreach($_POST['product_id'] as $pid){
-            $query = "select price from product where product_id = $pid";
-            $result = mysqli_query($conn, $query);
-            $total_amount += mysqli_fetch_array($result)[0];
-        }
-
-        // insert data into buy table.
-        $query = "insert into buy (customer_id, date_time, total_amount) values ('$customer_id', NOW(), $total_amount)";
-        mysqli_query($conn, $query);
-        $buy_id = mysqli_insert_id($conn);
-
-        // insert the data into buy_item table
-        foreach($_POST['product_id'] as $pid){
-            $query = "insert into buy_item(buy_id, product_id, quantity) values ($buy_id, $pid, 1)";
-            mysqli_query($conn, $query);
+    	foreach($_POST['stockId'] as $stockId){
+            $query = "insert into Orders (orderWhen, userId, stockId) VALUES ('2022-05-05',1,$stockId)";
+        	mysqli_query($conn, $query);
         }
         s_msg('주문이 완료되었습니다');
         echo "<script>location.replace('buy_list.php');</script>";

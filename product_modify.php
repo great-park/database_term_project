@@ -1,18 +1,24 @@
-﻿<?
+﻿﻿<?
 include "config.php";    //데이터베이스 연결 설정파일
 include "util.php";      //유틸 함수
 
 $conn = dbconnect($host,$dbid,$dbpass,$dbname);
 
-$product_id = $_POST['product_id'];
-$product_name = $_POST['product_name'];
-$product_desc = $_POST['product_desc'];
-$manufacturer_id = $_POST['manufacturer_id'];
+$stockId = $_POST[stockId];
+$modelNumber = $_POST['modelNumber'];
+$guitarType = $_POST['guitarType'];
+$storeId = $_POST['storeId'];
 $price = $_POST['price'];
+$description = $_POST['description'];
 
-$result = mysqli_query($conn, "update product set product_name = '$product_name', product_desc = '$product_desc', manufacturer_id = $manufacturer_id, price = $price where product_id = $product_id");
+$guitarId = mysqli_query($conn,"select guitarId from Stock where stockId = '$stockId';");
 
-if(!$result)
+
+$result1 = mysqli_query($conn, "UPDATE Guitar set modelNumber = '$modelNumber' , price = $price , guitarType = '$guitarType' , description = '$description' where guitarId = $stockId;");
+$result2 = mysqli_query($conn, "UPDATE Stock set guitarId = $stockId , storeId = $storeId where stockId = $stockId;");
+
+
+if(!$result1 or !$result2)
 {
     msg('Query Error : '.mysqli_error($conn));
 }

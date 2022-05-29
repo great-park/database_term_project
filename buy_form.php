@@ -6,21 +6,21 @@ include "util.php";
 <div class="container">
     <?
     $conn = dbconnect($host, $dbid, $dbpass, $dbname);
-    $query = "select * from product natural join manufacturer";
+    $query = "select * from Stock S inner join Guitar G on S.guitarId = G.guitarId";
     $result = mysqli_query($conn, $query);
     if (!$result) {
         die('Query Error : ' . mysqli_error());
     }
     ?>
     <form name='buy' action='buy.php' method='POST'>
-        <p align='right'> 사용자 ID 입력: <input type='text' name='customer_id'></p>
+        <p align='right'> 사용자 ID 입력: <input type='text' name='signInId'></p>
         <table class="table table-striped table-bordered">
             <tr>
                 <th>No.</th> 
-                <th>제조사</th>
-                <th>상품명</th>
+                <th>기타타입 (P: 합판, T: 탑솔리드 , B: 탑백솔리드, A: 올솔리드)</th>
+                <th>기타 모델 번호</th>
                 <th>가격</th>
-                <th>등록일</th>
+                <th>설명</th>
                 <th>선택</th>
             </tr>
             <?
@@ -28,12 +28,12 @@ include "util.php";
             while ($row = mysqli_fetch_array($result)) {
                 echo "<tr>";
                 echo "<td>{$row_index}</td>";
-                echo "<td>{$row['manufacturer_name']}</td>";
-                echo "<td><a href='product_view.php?product_id={$row['product_id']}'>{$row['product_name']}</a></td>";
+                echo "<td>{$row['guitarType']}</td>";
+                echo "<td><a href='product_view.php?stockId={$row['stockId']}'>{$row['modelNumber']}</a></td>";
                 echo "<td>{$row['price']}</td>";
-                echo "<td>{$row['added_datetime']}</td>";
+                echo "<td>{$row['description']}</td>";
                 echo "<td width='17%'>
-                    <input type='checkbox' name=product_id[] value='{$row['product_id']}'>
+                    <input type='checkbox' name=stockId[] value='{$row['stockId']}'>
                     </td>";
                 echo "</tr>";
                 $row_index++;

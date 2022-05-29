@@ -30,7 +30,7 @@ function s_msg($msg) //일반 메시지 출력
 
 function check_id($conn, $id)
 {
-	$query = "select customer_id from customer where customer_id='$id'";
+	$query = "select signInId from User where signInId='$id'";
 	$result = mysqli_query($conn, $query);
 	
 	$result = mysqli_fetch_array($result);
